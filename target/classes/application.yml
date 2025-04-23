@@ -1,0 +1,65 @@
+spring:
+  profiles:
+    active: dev
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    hikari:
+      minimum-idle: 5
+      maximum-pool-size: 15
+      auto-commit: true
+      idle-timeout: 30000
+      pool-name: HikariCP
+      max-lifetime: 1800000
+      connection-timeout: 30000
+      connection-test-query: SELECT 1
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 15MB
+  task:
+    execution:
+      pool:
+        core-size: 5
+        max-size: 10
+        queue-capacity: 100
+    scheduling:
+      pool:
+        size: 5
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.offershow.model.entity
+  configuration:
+    map-underscore-to-camel-case: true
+    cache-enabled: false
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+springfox:
+  documentation:
+    swagger-ui:
+      enabled: true
+
+logging:
+  level:
+    root: info
+    com.offershow: debug
+  file:
+    name: logs/offer-show.log
+    max-size: 10MB
+    max-history: 7
+
+app:
+  export:
+    path: /tmp/exports/
+  task:
+    statistics:
+      cron:
+        daily: "0 0 1 * * ?" # 每天凌晨1点执行
+        weekly: "0 0 2 ? * MON" # 每周一凌晨2点执行
+        monthly: "0 0 3 1 * ?" # 每月1日凌晨3点执行

@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/offer_show?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+    username: root
+    password: qa091923
+  devtools:
+    restart:
+      enabled: true
+
+server:
+  port: 8080
+
+logging:
+  level:
+    com.offershow: debug
+
+app:
+  export:
+    path: D:/temp/exports/

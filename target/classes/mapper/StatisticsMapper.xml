@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.offershow.repository.StatisticsRepository">
+
+    <!-- 基础字段映射 -->
+    <resultMap id="BaseResultMap" type="com.offershow.model.entity.Statistics">
+        <id column="id" property="id"/>
+        <result column="statistic_type" property="statisticType"/>
+        <result column="dimension" property="dimension"/>
+        <result column="dimension_value" property="dimensionValue"/>
+        <result column="statistic_value" property="statisticValue"/>
+        <result column="count" property="count"/>
+        <result column="statistic_date" property="statisticDate"/>
+        <result column="created_at" property="createdAt"/>
+    </resultMap>
+
+    <!-- 基础查询列 -->
+    <sql id="Base_Column_List">
+        id, statistic_type, dimension, dimension_value, statistic_value, count, statistic_date, created_at
+    </sql>
+
+    <!-- 插入统计信息 -->
+    <insert id="insert" parameterType="com.offershow.model.entity.Statistics" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO statistics (
+            statistic_type, dimension, dimension_value, statistic_value, count, statistic_date, created_at
+        ) VALUES (
+                     #{statisticType}, #{dimension}, #{dimensionValue}, #{statisticValue}, #{count}, #{statisticDate}, #{createdAt}
+                 )
+    </insert>
+
+    <!-- 批量插入统计信息 -->
+    <insert id="batchInsert" parameterType="java.util.List">
+        INSERT INTO statistics (
+        statistic_type, dimension, dimension_value, statistic_value, count, statistic_date, created_at
+        ) VALUES
+        <foreach collection="list" item="item" separator=",">
+            (
+            #{item.statisticType}, #{item.dimension}, #{item.dimensionValue}, #{item.statisticValue},
+            #{item.count}, #{item.statisticDate}, #{item.createdAt}
+            )
+        </foreach>
+    </insert>
+
+    <!-- 根据统计类型和维度查询统计信息 -->
+    <select id="findByTypeAndDimension" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM statistics
+        WHERE statistic_type = #{statisticType}
+        AND dimension = #{dimension}
+        <if test="startDate != null and startDate != ''">
+            AND statistic_date >= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND statistic_date &lt;= #{endDate}
+        </if>
+        ORDER BY statistic_date, dimension_value
+    </select>
+
+    <!-- 根据统计类型、维度和维度值查询统计信息 -->
+    <select id="findByTypeAndDimensionValue" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM statistics
+        WHERE statistic_type = #{statisticType}
+        AND dimension = #{dimension}
+        AND dimension_value = #{dimensionValue}
+        <if test="startDate != null and startDate != ''">
+            AND statistic_date >= #{startDate}
+        </if>
+        <if test="endDate != null and endDate != ''">
+            AND statistic_date &lt;= #{endDate}
+        </if>
+        ORDER BY statistic_date
+    </select>
+
+    <!-- 删除指定日期之前的统计数据 -->
+    <delete id="deleteStatisticsBefore">
+        DELETE FROM statistics
+        WHERE statistic_date &lt; #{date}
+    </delete>
+
+    <!-- 检查指定日期的统计数据是否已存在 -->
+    <select id="checkStatisticsExists" resultType="int">
+        SELECT COUNT(*)
+        FROM statistics
+        WHERE statistic_type = #{statisticType}
+          AND dimension = #{dimension}
+          AND statistic_date = #{statisticDate}
+    </select>
+
+</mapper>

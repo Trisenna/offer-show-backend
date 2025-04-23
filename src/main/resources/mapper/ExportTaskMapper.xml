@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.offershow.repository.ExportTaskRepository">
+
+    <!-- 基础字段映射 -->
+    <resultMap id="BaseResultMap" type="com.offershow.model.entity.ExportTask">
+        <id column="id" property="id"/>
+        <result column="task_name" property="taskName"/>
+        <result column="task_params" property="taskParams"/>
+        <result column="status" property="status"/>
+        <result column="file_url" property="fileUrl"/>
+        <result column="created_at" property="createdAt"/>
+        <result column="updated_at" property="updatedAt"/>
+        <result column="completed_at" property="completedAt"/>
+    </resultMap>
+
+    <!-- 基础查询列 -->
+    <sql id="Base_Column_List">
+        id, task_name, task_params, status, file_url, created_at, updated_at, completed_at
+    </sql>
+
+    <!-- 插入导出任务 -->
+    <insert id="insert" parameterType="com.offershow.model.entity.ExportTask" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO export_tasks (
+            task_name, task_params, status, file_url, created_at, updated_at, completed_at
+        ) VALUES (
+                     #{taskName}, #{taskParams}, #{status}, #{fileUrl}, #{createdAt}, #{updatedAt}, #{completedAt}
+                 )
+    </insert>
+
+    <!-- 更新导出任务 -->
+    <update id="update" parameterType="com.offershow.model.entity.ExportTask">
+        UPDATE export_tasks
+        SET task_name = #{taskName},
+            task_params = #{taskParams},
+            status = #{status},
+            file_url = #{fileUrl},
+            updated_at = #{updatedAt},
+            completed_at = #{completedAt}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 根据ID查询导出任务 -->
+    <select id="findById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM export_tasks
+        WHERE id = #{id}
+    </select>
+
+    <!-- 查询所有待处理的导出任务 -->
+    <select id="findPendingTasks" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM export_tasks
+        WHERE status = 'PENDING'
+        ORDER BY created_at ASC
+    </select>
+
+    <!-- 更新任务状态 -->
+    <update id="updateStatus">
+        UPDATE export_tasks
+        SET status = #{status},
+            updated_at = NOW()
+        WHERE id = #{id}
+    </update>
+
+    <!-- 更新任务文件URL -->
+    <update id="updateFileUrl">
+        UPDATE export_tasks
+        SET file_url = #{fileUrl},
+            updated_at = NOW(),
+            completed_at = NOW(),
+            status = 'COMPLETED'
+        WHERE id = #{id}
+    </update>
+
+    <!-- 删除指定日期之前的已完成任务 -->
+    <delete id="deleteCompletedTasksBefore">
+        DELETE FROM export_tasks
+        WHERE status = 'COMPLETED'
+          AND completed_at &lt; #{date}
+    </delete>
+
+</mapper>

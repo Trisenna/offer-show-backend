@@ -1,0 +1,45 @@
+version: '3'
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: offer-show-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: offer_show
+      MYSQL_USER: offershow
+      MYSQL_PASSWORD: offershow
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./schema.sql:/docker-entrypoint-initdb.d/schema.sql
+      - mysql-data:/var/lib/mysql
+    networks:
+      - offer-show-network
+    command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+
+  app:
+    build: .
+    container_name: offer-show-app
+    depends_on:
+      - mysql
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/offer_show?useUnicode=true&characterEncoding=utf8&serverTimezone=Asia/Shanghai
+      SPRING_DATASOURCE_USERNAME: offershow
+      SPRING_DATASOURCE_PASSWORD: offershow
+      APP_EXPORT_PATH: /app/exports
+    volumes:
+      - app-exports:/app/exports
+    networks:
+      - offer-show-network
+    restart: always
+
+networks:
+  offer-show-network:
+    driver: bridge
+
+volumes:
+  mysql-data:
+  app-exports:
