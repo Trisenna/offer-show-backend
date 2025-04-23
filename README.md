@@ -2,7 +2,7 @@
 
 ## 项目介绍
 
-Offer Show 是一个分享、展示和比较职位 offer 信息的平台，本项目是其后台服务系统，提供了 Offer 信息的管理、检索、统计分析等功能。
+本项目是我的api设计的课程作业，根据Offer Show的功能复现了他们的后端程序的一部分，提供 Offer 信息的管理、检索、统计分析等功能。
 
 ## 功能特性
 
@@ -43,7 +43,7 @@ Offer Show 是一个分享、展示和比较职位 offer 信息的平台，本�
 1. 克隆项目到本地
 
 ```bash
-git clone https://github.com/Trisenna/offer_show_backend.git
+git clone https://github.com/Trisenna/offer-show-backend.git
 cd offer-show-backend
 ```
 
