@@ -43,7 +43,7 @@ Offer Show 是一个分享、展示和比较职位 offer 信息的平台，本�
 1. 克隆项目到本地
 
 ```bash
-git clone https://github.com/yourusername/offer-show-backend.git
+git clone https://github.com/Trisenna/offer_show_backend.git
 cd offer-show-backend
 ```
 
@@ -130,6 +130,10 @@ docker-compose up -d
 ```bash
 ./test_api.sh
 ```
+或者
+```
+offer-show-backend\src\test\java\com\offershow\test\OfferShowAPITest.java
+```
 
 ## 项目目录结构
 
@@ -172,7 +176,6 @@ offer-show-backend/
 
 ## 联系方式
 
-如有任何问题或建议，请通过以下方式联系我们：
+如有任何问题或建议，可以通过以下方式联系我：
 
 - 电子邮件：2834136003@qq.com
-- GitHub Issues：[https://github.com/yourusername/offer-show-backend/issues](https://github.com/yourusername/offer-show-backend/issues)
