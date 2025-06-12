@@ -2,7 +2,7 @@
 
 ## 项目介绍
 
-本项目是我的api设计的课程作业，根据Offer Show的功能复现了他们的后端程序的一部分，提供 Offer 信息的管理、检索、统计分析等功能。
+本项目是我的api设计的课程作业，根据Offer Show的功能复现了他们的后端程序的一部分，提供 Offer 信息的管理、检索、统计分析等功能。北京交通大学。
 
 ## 功能特性
 
@@ -65,14 +65,7 @@ spring:
     password: your_password
 ```
 
-4. 构建并运行
-
-```bash
-mvn clean package
-java -jar target/offer-show-backend-0.0.1-SNAPSHOT.jar
-```
-
-5. 访问API文档
+4. 访问API文档
 
 在浏览器中访问 [http://localhost:8080/api/swagger-ui/](http://localhost:8080/api/swagger-ui/) 查看API文档。
 
@@ -161,14 +154,6 @@ offer-show-backend/
 ├── pom.xml
 └── README.md
 ```
-
-## 贡献指南
-
-1. Fork 项目
-2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
-3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
-4. 推送到分支 (`git push origin feature/AmazingFeature`)
-5. 创建Pull Request
 
 ## 许可证
 
