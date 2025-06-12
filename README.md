@@ -16,9 +16,7 @@
 ## 技术栈
 
 - **后端框架**：Spring Boot 2.7.x
-- **ORM框架**：MyBatis
 - **数据库**：MySQL 8.0
-- **任务调度**：Spring Scheduler + Quartz
 - **API文档**：Swagger
 - **容器化**：Docker + Docker Compose
 
